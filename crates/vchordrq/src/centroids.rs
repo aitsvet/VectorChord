@@ -12,11 +12,11 @@
 //
 // Copyright (c) 2025 TensorChord Inc.
 
+use crate::Opaque;
 use crate::closure_lifetime_binder::{id_0, id_1};
 use crate::operator::*;
 use crate::tape::by_next;
 use crate::tuples::*;
-use crate::Opaque;
 use index::accessor::{Accessor1, FunctionalAccessor};
 use index::relation::{Page, RelationRead};
 use vector::VectorOwned;

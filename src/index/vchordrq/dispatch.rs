@@ -27,10 +27,10 @@ use std::num::NonZero;
 use vchordrq::operator::Op;
 use vchordrq::types::*;
 use vchordrq::{FastHeap, InsertChooser, MaintainChooser};
+use vector::VectorOwned;
 use vector::rabitq4::Rabitq4Owned;
 use vector::rabitq8::Rabitq8Owned;
 use vector::vect::{VectBorrowed, VectOwned};
-use vector::VectorOwned;
 
 pub fn prewarm<R>(opfamily: Opfamily, index: &R, height: i32) -> String
 where
