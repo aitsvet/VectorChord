@@ -566,6 +566,9 @@ IMMUTABLE STRICT PARALLEL SAFE LANGUAGE c AS 'MODULE_PATHNAME', '_vchord_halfvec
 CREATE FUNCTION vchordrq_sampled_values(regclass) RETURNS SETOF TEXT
 STRICT LANGUAGE c AS 'MODULE_PATHNAME', '_vchordrq_sampled_values_wrapper';
 
+CREATE FUNCTION vchordrq_list_centroids(regclass) RETURNS TABLE(level INT, id INT, centroid TEXT)
+STRICT LANGUAGE c AS 'MODULE_PATHNAME', '_vchordrq_list_centroids_wrapper';
+
 CREATE FUNCTION vchordrq_sampled_queries(regclass)
 RETURNS TABLE(
     schema_name NAME,

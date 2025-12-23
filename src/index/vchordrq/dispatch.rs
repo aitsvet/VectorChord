@@ -66,6 +66,111 @@ where
     }
 }
 
+pub struct CentroidResult {
+    pub level: i32,
+    pub id: i32,
+    pub vector: String,
+}
+
+fn format_f32_vector(slice: &[f32]) -> String {
+    let elements: Vec<String> = slice.iter().map(|x| format!("{}", x)).collect();
+    format!("[{}]", elements.join(","))
+}
+
+fn format_f16_vector(slice: &[f16]) -> String {
+    let elements: Vec<String> = slice.iter().map(|x| format!("{}", x.to_f32())).collect();
+    format!("[{}]", elements.join(","))
+}
+
+pub fn list_centroids<R>(opfamily: Opfamily, index: &R) -> Vec<CentroidResult>
+where
+    R: RelationRead,
+    R::Page: Page<Opaque = vchordrq::Opaque>,
+{
+    match (opfamily.vector_kind(), opfamily.distance_kind()) {
+        (VectorKind::Vecf32, DistanceKind::L2S) => {
+            vchordrq::list_centroids::<_, Op<VectOwned<f32>, L2S>>(index)
+                .into_iter()
+                .map(|c| CentroidResult {
+                    level: c.level as i32,
+                    id: c.id as i32,
+                    vector: format_f32_vector(c.vector.slice()),
+                })
+                .collect()
+        }
+        (VectorKind::Vecf32, DistanceKind::Dot) => {
+            vchordrq::list_centroids::<_, Op<VectOwned<f32>, Dot>>(index)
+                .into_iter()
+                .map(|c| CentroidResult {
+                    level: c.level as i32,
+                    id: c.id as i32,
+                    vector: format_f32_vector(c.vector.slice()),
+                })
+                .collect()
+        }
+        (VectorKind::Vecf16, DistanceKind::L2S) => {
+            vchordrq::list_centroids::<_, Op<VectOwned<f16>, L2S>>(index)
+                .into_iter()
+                .map(|c| CentroidResult {
+                    level: c.level as i32,
+                    id: c.id as i32,
+                    vector: format_f16_vector(c.vector.slice()),
+                })
+                .collect()
+        }
+        (VectorKind::Vecf16, DistanceKind::Dot) => {
+            vchordrq::list_centroids::<_, Op<VectOwned<f16>, Dot>>(index)
+                .into_iter()
+                .map(|c| CentroidResult {
+                    level: c.level as i32,
+                    id: c.id as i32,
+                    vector: format_f16_vector(c.vector.slice()),
+                })
+                .collect()
+        }
+        (VectorKind::Rabitq8, DistanceKind::L2S) => {
+            vchordrq::list_centroids::<_, Op<Rabitq8Owned, L2S>>(index)
+                .into_iter()
+                .map(|c| CentroidResult {
+                    level: c.level as i32,
+                    id: c.id as i32,
+                    vector: format!("{:?}", c.vector),
+                })
+                .collect()
+        }
+        (VectorKind::Rabitq8, DistanceKind::Dot) => {
+            vchordrq::list_centroids::<_, Op<Rabitq8Owned, Dot>>(index)
+                .into_iter()
+                .map(|c| CentroidResult {
+                    level: c.level as i32,
+                    id: c.id as i32,
+                    vector: format!("{:?}", c.vector),
+                })
+                .collect()
+        }
+        (VectorKind::Rabitq4, DistanceKind::L2S) => {
+            vchordrq::list_centroids::<_, Op<Rabitq4Owned, L2S>>(index)
+                .into_iter()
+                .map(|c| CentroidResult {
+                    level: c.level as i32,
+                    id: c.id as i32,
+                    vector: format!("{:?}", c.vector),
+                })
+                .collect()
+        }
+        (VectorKind::Rabitq4, DistanceKind::Dot) => {
+            vchordrq::list_centroids::<_, Op<Rabitq4Owned, Dot>>(index)
+                .into_iter()
+                .map(|c| CentroidResult {
+                    level: c.level as i32,
+                    id: c.id as i32,
+                    vector: format!("{:?}", c.vector),
+                })
+                .collect()
+        }
+    }
+}
+
 pub fn bulkdelete<R>(
     opfamily: Opfamily,
     index: &R,

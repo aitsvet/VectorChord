@@ -309,6 +309,9 @@ IMMUTABLE STRICT PARALLEL SAFE LANGUAGE c AS 'MODULE_PATHNAME', '_vchordrq_amhan
 CREATE FUNCTION vchordrq_prewarm(regclass, integer default 0) RETURNS TEXT
 STRICT LANGUAGE c AS 'MODULE_PATHNAME', '_vchordrq_prewarm_wrapper';
 
+CREATE FUNCTION vchordrq_list_centroids(regclass) RETURNS TABLE(level INT, id INT, centroid TEXT)
+STRICT LANGUAGE c AS 'MODULE_PATHNAME', '_vchordrq_list_centroids_wrapper';
+
 CREATE FUNCTION vchordrq_evaluate_query_recall(
     query text,
     exact_search boolean default false,

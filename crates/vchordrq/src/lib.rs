@@ -38,6 +38,7 @@ pub mod types;
 pub use build::build;
 pub use bulkdelete::{bulkdelete, bulkdelete_vectors};
 pub use cache::cache;
+pub use centroids::{CentroidInfo, list_all as list_centroids};
 pub use consume::consume;
 pub use cost::cost;
 pub use fast_heap::FastHeap;
