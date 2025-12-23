@@ -1,5 +1,7 @@
 FROM postgres:18-trixie AS builder
 
+ENV PATH="/root/.cargo/bin:${PATH}"
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
@@ -9,7 +11,6 @@ RUN apt-get update && apt-get install -y \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly
-ENV PATH="/root/.cargo/bin:${PATH}"
 
 WORKDIR /build
 COPY . .
